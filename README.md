@@ -1,5 +1,7 @@
 # Amazon Review Dataset Visualization Project
 
+![demo](/demo.png)
+
 This project aims to provide an effective visualization of the Amazon review dataset. It consists of two main components: a React-based visualization using D3 and a Svelte-based visualization using the Canvas API via p5.js and native HTML input, integrated with Chart.js to create a unified view.
 
 ## Setup Instructions
