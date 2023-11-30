@@ -7,6 +7,7 @@
 	import LineChart from '$lib/components/LineChart.svelte';
 	import P5 from 'p5-svelte';
 
+	let windowObject = null;
 	let width = 700;
 	let height = 700;
 
@@ -16,6 +17,18 @@
 
 	let fromValue = 0;
 	let toValue = 0;
+
+	$: if (typeof windowObject != null) {
+		if (windowObject?.parent ?? false) {
+			windowObject.parent.postMessage(
+				JSON.stringify({
+					fromValue: fromValue,
+					toValue: toValue
+				}),
+				'*'
+			);
+		}
+	}
 
 	const groupBy = (items, key) =>
 		items.reduce(
@@ -342,6 +355,7 @@
 
 	let loaded = false;
 	onMount(async () => {
+		windowObject = window;
 		reviewsData = await d3.csv('/reviews.csv');
 		reviews = reviewsData.sort((a, b) => a.unixReviewTime - b.unixReviewTime);
 		selectedReviews = reviews;
@@ -356,7 +370,7 @@
 </script>
 
 {#if loaded && reviews.length > 0}
-	<div class=" flex">
+	<div class=" flex justify-center">
 		<div>
 			<P5 {sketch} />
 			<div>
@@ -409,7 +423,9 @@
 			/>
 		</div>
 
-		<div>dsfs</div>
+		<div>
+			<!-- Left View -->
+		</div>
 	</div>
 {/if}
 
